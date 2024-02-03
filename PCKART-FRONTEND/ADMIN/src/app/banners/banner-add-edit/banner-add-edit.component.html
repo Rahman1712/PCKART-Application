@@ -1,0 +1,100 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Banner Add</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/banners" routerLinkActive="active">Banners</a>
+        </li>
+        <li class="breadcrumb-item active">Banner Add</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section">
+    <div class="container mt-5">
+      <div class="card p-2">
+        <form #bannerForm="ngForm" ngNativeValidate (ngSubmit)="isUpdate ? updateBanner() : saveBanner(bannerForm)">
+
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div  class="mainimage-card">
+                  <div *ngIf="bannerImageFile != undefined" class="container p-2">
+                    <img [src]="bannerImageFile.url" class="img-fluid" alt="PIC">
+                  </div>
+                  <div class="m-2">
+                    <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                    <input hidden ngNativeValidate (change)="onFileSelected($event)" #fileInput type="file" id="file" accept=".jpeg, .jpg, .png" >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <div class="row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Banner Header</mat-label>
+                  <input ngNativeValidate required matInput id="bannerHeader" name="bannerHeader" [(ngModel)]="banner.bannerHeader" placeholder="Banner Header Name">
+                </mat-form-field>
+              </div>
+              
+              <div class="row">
+                <div class="col position-relative">
+                  <form class="d-flex input-group search__input__form">
+                    <input autocomplete="off" type="search" class="form-control search__input" placeholder="Search product" name="searchKeyword" [(ngModel)]="searchKeyword" (keyup)="searchOperation()" (close)="searchOperation()" (click)="searchBox.style.visibility = 'visible'"/>
+                  </form>
+                  <div class="search__box" #searchBox>
+                    <div class="card d-flex flex-column">
+                      <div class="row align-items-top product__items__row" *ngIf="productsSearchList.length > 0;">
+                        <ul>
+                          <li class="product__item" *ngFor="let prod of productsSearchList;">
+                              <a (click)="product.id = prod.productId ; product.name = prod.productName ; searchBox.style.visibility =  'hidden';">
+                                <p class="product__title">{{prod.productName | limitTextSize : prod.productName.length}}</p>
+                              </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <mat-form-field class="full-width" appearance="outline" class="full-width">
+                      <mat-label>Banner Product</mat-label>
+                      <input matInput id="productName" name="productName"  [(ngModel)]="product.name" placeholder="Product Name" readonly="readonly" ngNativeValidate required>
+                      <input ngNativeValidate type="hidden" id="productId" name="productId" [(ngModel)]="product.id" required>
+                      <!-- {{banner.productName | limitTextSize : 75}} -->
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field class="full-width">
+                    <mat-label>Banner Description 1</mat-label>
+                    <textarea  matInput id="description1" placeholder="Banner Description 1"
+                      [(ngModel)]="banner.description1" name="description1"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field class="full-width">
+                    <mat-label>Banner Description 2</mat-label>
+                    <textarea  matInput id="description2" placeholder="Banner Description 2"
+                      [(ngModel)]="banner.description2" name="description2"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+              
+        
+              <div class="d-flex justify-content-end mb-2">
+                <button mat-raised-button class="mx-1" [style.display]="isUpdate ? 'none':'block'" (click)="clearForm(bannerForm)">clear</button>
+                <button type="submit" mat-raised-button color="primary">{{ isUpdate ? 'update':'add'}}</button>
+              </div>
+            </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+

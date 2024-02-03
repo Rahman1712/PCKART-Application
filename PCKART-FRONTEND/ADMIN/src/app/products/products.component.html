@@ -1,0 +1,185 @@
+<!-- <p>products works!</p> -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Products</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item active">Products</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container ">
+          <div class="d-flex align-items-center">
+            <button routerLink="/product-add" routerLinkActive="active" type="button" class="btn btn-primary me-3">
+              <i class="bi bi-plus-circle"></i>
+              Add Product
+            </button>
+          </div>
+          <div>
+            <div>
+              <label for="form-label">search</label>
+              <input class="form-control" type="text" [(ngModel)] ="searchKeyword"  placeholder="Search by name" (keyup)="searchOperation()">
+            </div>
+          </div>
+          <div>
+            <div>
+              <label for="form-select">order by</label>
+              <select class="form-select" aria-label="" [(ngModel)]="sortDir" (change)="getProductsWithPagination(pageNum,limit,sortField,sortDir)">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div>
+              <label for="form-select">sort by</label>
+              <select class="form-select" aria-label="" [(ngModel)]="sortField" (change)="getProductsWithPagination(pageNum,limit,sortField,sortDir)">
+                <option value="name">Product Name</option>
+                <option value="price">Product Price</option>
+                <option value="added_at">Recent Added</option>
+                <option value="quantity">Product Quantity</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Products</h5>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Preview</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Brand Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr *ngFor="let pd of productsListImgs">
+                    <td>{{pd.productResponse.productId}}</td>
+                    <td>{{pd.productResponse.productName}}</td>
+                    <td>{{pd.productResponse.brandName}}</td>
+                    <td>{{pd.productResponse.productPrice}}</td>
+                    <td>{{pd.productResponse.productQuantity}}</td>
+                  </tr> -->
+                  <tr *ngFor="let pd of productsListImgs; let i = index;">
+                    <th scope="row">
+                      <a (click)="showProductDetails(pd.productResponse!.productId)" style="cursor: pointer;">#{{pd.productResponse!.productId}}</a></th>
+                    <!-- <td>{{pd.productId}}</td> -->
+                    <th scope="row"><a (click)="showProductDetails(pd.productResponse!.productId)" style="cursor: pointer;">
+                      <img [src]="pd.productResponse!.mainImage.url" alt="PIC" width="30px" height="30px"></a>
+                    </th>
+                    <!-- <td>{{pd.productName}}</td> -->
+                    <td>{{pd.productResponse!.productName}}</td>
+                    <td>{{pd.productResponse!.brandName}}</td>
+                    <td>{{pd.productResponse!.productPrice}}</td>
+                    <td>{{pd.productResponse!.productQuantity}}</td>
+                    <td>
+                      <!-- {{pd.productResponse!.active}} -->
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="nonLocked" id="nonLocked" [checked]="pd.productResponse!.active" [(ngModel)] ="pd.productResponse!.active" (change)="updateActive(pd.productResponse!.productId,pd.productResponse!.active)">
+                      </div>
+                    </td>
+                    <td>
+                      <a style="cursor: pointer;" (click)="updateProductDetails(pd.productResponse!.productId)">
+                        <span><i class="bi bi-pencil-square text-secondary mx-2"></i></span>
+                      </a>
+                      <a class="d-none">
+                        <span style="cursor: pointer;" mwlConfirmationPopover 
+                        [popoverTitle]="popoverTitle" 
+                        [popoverMessage]="popoverMessage" 
+                        placement="left" 
+                        (confirm)="removeProductItem(pd.productResponse!.productId,i)" 
+                        (cancel)="cancelClicked = true">
+                        <i class="bi bi-trash text-danger mx-2"></i></span>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="d-flex align-items-center justify-content-center mt-5" *ngIf="totalPages > 1"> 
+                <nav aria-label="">
+                  <ul class="pagination" style="cursor: pointer;">
+
+                    <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                      <a class="page-link" (click)="getProductsWithPagination(1,limit,sortField,sortDir)">First</a>
+                    </li>
+
+                    <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                      <a class="page-link" (click)="getProductsWithPagination(pageNum-1,limit,sortField,sortDir)">Prev</a>
+                    </li>
+                    <ng-container *ngIf="totalPages <= 10;">
+                      <li *ngFor="let i of range(totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                        <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                      </li>
+                    </ng-container>
+
+                    <ng-container *ngIf="totalPages > 10;">
+                      <ng-container *ngIf="pageNum <= 5 || pageNum >= totalPages - 4;">
+                        
+                        <li *ngFor="let i of range(5);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                          <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                        </li>
+
+                        <a class="page-link" (click)="getProductsWithPagination(6,limit,sortField,sortDir)">...</a>
+
+                        <li *ngFor="let i of rangeStart(totalPages - 4, totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                          <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                        </li>
+                      </ng-container>
+
+                      <ng-container *ngIf="pageNum > 5 && pageNum < totalPages - 4">
+                        <a class="page-link" (click)="getProductsWithPagination(pageNum-5,limit,sortField,sortDir)">...</a>
+                       
+                        <li *ngFor="let i of rangeStart(pageNum-4, pageNum+4);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                          <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                        </li>
+
+                        <a class="page-link" (click)="getProductsWithPagination(pageNum+5,limit,sortField,sortDir)">...</a>
+                      </ng-container>
+                    </ng-container>
+                    
+
+                    <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                      <a class="page-link" (click)="getProductsWithPagination(pageNum+1,limit,sortField,sortDir)">Next</a>
+                    </li>
+
+                    <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                      <a class="page-link" (click)="getProductsWithPagination(totalPages,limit,sortField,sortDir)">Last</a>
+                    </li>
+
+                  </ul>
+                  
+                  <div class="text-center text-primary">
+                    <p *ngIf="startCount != endCount; else elseBlockItem;">Showing products # {{startCount}} to {{endCount}} of {{totalItems}}</p>
+                  </div>
+                  <ng-template #elseBlockItem>
+                      <p>Showing products # {{endCount}} of {{totalItems}}</p>
+                  </ng-template>
+
+                </nav>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+

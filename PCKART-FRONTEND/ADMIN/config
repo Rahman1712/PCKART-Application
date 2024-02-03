@@ -1,0 +1,12 @@
+
+# Personal account - default config
+Host github.com-Rahman1712
+   HostName github.com
+   User git
+   IdentityFile ~/.ssh/id_ed25519
+# rahmandarb Donrahman6 account 
+Host github.com-rahmandarb
+   HostName github.com
+   User git
+   IdentityFile ~/.ssh/id_ed25519_donrahman6
+

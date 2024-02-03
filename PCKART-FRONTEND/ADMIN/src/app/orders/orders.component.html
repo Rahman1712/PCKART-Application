@@ -1,0 +1,232 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Orders</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active" >Home</a></li>
+        <li class="breadcrumb-item active">Orders</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section order">
+    <div class="container">
+
+      <nav class="navbar navbar-light bg-light">
+        <div class="container d-flex align-items-center">
+          <div>
+            <div>
+              <label for="form-label">search</label>
+              <input class="form-control" type="text" [(ngModel)] ="searchKeyword"  placeholder="Search by tracking no, addresse, order id" (keyup)="searchOperation()">
+            </div>
+          </div>
+
+          <div class="position-relative order_filter_div">
+            <div class="order_filter" matTooltip="Order Status Filter" >
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-cart-check"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Order Status</h6>
+                </li>
+  
+                <li *ngFor="let status of orderStatuses">
+                  <label>
+                    <input type="checkbox" [value]="status" [checked]="isOrderStatusSelected(status)" (change)="toggleOrderStatusSelection(status)">
+                    {{ status }}
+                  </label>
+                </li>
+                
+                </ul>
+            </div>
+          </div>
+
+          <div class="position-relative order_filter_div" >
+            <div class="order_filter" matTooltip="Payment Method Filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-credit-card-2-back"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Payment Method</h6>
+                </li>
+  
+                <li *ngFor="let method of paymentMethods">
+                  <label>
+                    <input type="checkbox" [value]="method" [checked]="isPaymentMethodSelected(method)" (change)="togglePaymentMethodSelection(method)">
+                    {{ method }}
+                  </label>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+
+          <div class="position-relative order_filter_div">
+            <div class="order_filter"  matTooltip="Payment Status Filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-currency-rupee"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Payment Status</h6>
+                </li>
+
+                <li *ngFor="let status of paymentStatuses">
+                  <label>
+                    <input type="checkbox" [value]="status" [checked]="isPaymentStatusSelected(status)" (change)="togglePaymentStatusSelection(status)">
+                    {{ status }}
+                  </label>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <label for="form-select">order by</label>
+              <select class="form-select" aria-label="" [(ngModel)]="sortDir" (change)="getOrdersWithPagination(pageNum,limit,sortField,sortDir)">
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <label for="form-select">sort by</label>
+              <select class="form-select" aria-label="" [(ngModel)]="sortField" (change)="getOrdersWithPagination(pageNum,limit,sortField,sortDir)">
+                <option value="orderDate">Order Date</option>
+                <option value="totalPricePaid">Order Amount</option>
+                <option value="orderStatus">Order Status</option>
+                <option value="paymentStatus">Payment Status</option>
+                <option value="paymentMethod">Payment Method</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="row">
+
+
+          <!-- Recent Sales -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+
+              <!-- <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li><a class="dropdown-item" href="#">Today</a></li>
+                  <li><a class="dropdown-item" href="#">This Month</a></li>
+                  <li><a class="dropdown-item" href="#">This Year</a></li>
+                </ul>
+              </div> -->
+
+              <div class="card-body">
+                <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">Tracking No</th>
+                      <th scope="col">Order Date</th>
+                      <th scope="col">Addresse</th><!-- Customer -->
+                      <th scope="col">Products</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Status</th>
+                      <th scope="col"><i class="bi-three-dots"></i> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let order of ordersList;" class="{{(!orderStatusActive(order,'RETURNED') && order.orderStatus=='RETURNED') ?  'table-warning' : ''}}">
+                      <th scope="row">
+                        <a [routerLink]="['/orders/order-view']" [queryParams]="{ orderId: order.id }">{{order.trackingNo}}</a>
+                      </th>
+                      <td>{{order.orderDate | date}}</td>
+                      <!-- <td>{{order.username}}</td> -->
+                      <td>{{order.orderAddress.fullname}}</td>
+                      <td>
+                        {{getTotalQuantity(order) > 1 ? getTotalQuantity(order)+' products' : getTotalQuantity(order)+' product'}}
+                      </td>
+                      <td>{{order.totalPricePaid | currency: 'INR'}}</td>
+                      <td><span class="badge {{bgBadgeSelect(order.orderStatus)}}">{{order.orderStatus.toLowerCase()}}</span></td>
+                      <th scope="col" matTooltipPosition="left"  matTooltip="Payment Type: {{order.paymentMethod}} ,   Payment Status: {{order.paymentStatus}}"><i class="bi-eye"></i> </th>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+                <div class="d-flex align-items-center justify-content-center mt-5" *ngIf="totalPages > 1"> 
+                  <nav aria-label="">
+                    <ul class="pagination" style="cursor: pointer;">
+  
+                      <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getOrdersWithPagination(1,limit,sortField,sortDir)">First</a>
+                      </li>
+  
+                      <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getOrdersWithPagination(pageNum-1,limit,sortField,sortDir)">Prev</a>
+                      </li>
+                      <ng-container *ngIf="totalPages <= 10;">
+                        <li *ngFor="let i of range(totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                          <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                        </li>
+                      </ng-container>
+  
+                      <ng-container *ngIf="totalPages > 10;">
+                        <ng-container *ngIf="pageNum <= 5 || pageNum >= totalPages - 4;">
+                          
+                          <li *ngFor="let i of range(5);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                            <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                          </li>
+  
+                          <a class="page-link" (click)="getOrdersWithPagination(6,limit,sortField,sortDir)">...</a>
+  
+                          <li *ngFor="let i of rangeStart(totalPages - 4, totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                            <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                          </li>
+                        </ng-container>
+  
+                        <ng-container *ngIf="pageNum > 5 && pageNum < totalPages - 4">
+                          <a class="page-link" (click)="getOrdersWithPagination(pageNum-5,limit,sortField,sortDir)">...</a>
+                         
+                          <li *ngFor="let i of rangeStart(pageNum-4, pageNum+4);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                            <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                          </li>
+  
+                          <a class="page-link" (click)="getOrdersWithPagination(pageNum+5,limit,sortField,sortDir)">...</a>
+                        </ng-container>
+                      </ng-container>
+                      
+  
+                      <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getOrdersWithPagination(pageNum+1,limit,sortField,sortDir)">Next</a>
+                      </li>
+  
+                      <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getOrdersWithPagination(totalPages,limit,sortField,sortDir)">Last</a>
+                      </li>
+  
+                    </ul>
+                    
+                    <div class="text-center text-primary">
+                      <p *ngIf="startCount != endCount; else elseBlockItem;">Showing products # {{startCount}} to {{endCount}} of {{totalItems}}</p>
+                    </div>
+                    <ng-template #elseBlockItem>
+                        <p>Showing products # {{endCount}} of {{totalItems}}</p>
+                    </ng-template>
+  
+                  </nav>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+

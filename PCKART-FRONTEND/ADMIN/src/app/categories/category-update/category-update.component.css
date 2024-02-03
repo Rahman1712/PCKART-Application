@@ -1,0 +1,116 @@
+/* .drop_box {
+  margin: 10px 0;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 3px dotted #a3a3a3;
+  border-radius: 5px;
+}
+
+.drop_box h4 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #2e2e2e;
+}
+
+.drop_box p {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #a3a3a3;
+}
+
+.btn {
+  text-decoration: none;
+  background-color: #005af0;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  transition: 0.3s;
+}
+
+.btn:hover{
+  text-decoration: none;
+  background-color: #ffffff;
+  color: #005af0;
+  padding: 10px 20px;
+  border: none;
+  outline: 1px solid #010101;
+}
+.form input {
+  margin: 10px 0;
+  width: 100%;
+  background-color: #e2e2e2;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+} */
+
+
+.full-width {
+  width: 100%;
+}
+
+.full-width-input {
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+.btn-mat-specs{
+  width: 10px !important;
+  background: #000 !important;
+  min-width: unset!important;
+}
+
+.mainimage-card{
+  border: 1px solid #eee;
+}
+
+mat-grid-tile{
+  border: 1px solid #eee;
+}
+
+.btn-remove-image{
+  position: absolute;
+  cursor: pointer;
+  top: -10px;
+  right: -10px;
+  background-color: #ff0000;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: auto;
+  text-align: center;
+}
+
+.dropzone{
+  height: 50px;
+  min-width: 50px;
+  display: table;
+  background-color: #eee;
+  width: 300px;
+  border: dashed 1px #aaa;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.text-wrapper{
+  display: table-cell;
+  vertical-align: middle;
+}
+.centered{
+  text-align: center;
+}
+.browse-btn{
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.category-select-parent.mat-mdc-select-panel {
+  background: rgba(255, 0, 0, 0.5);
+}

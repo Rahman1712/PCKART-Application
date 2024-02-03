@@ -1,0 +1,38 @@
+
+
+.banner_details p{
+  font-size: 12px;
+  font-weight: 500;
+  color: #012970;
+}
+.banner_details p b{
+  color: cadetblue;
+}
+.banner_details .enabled{
+  color: rgb(209, 180, 74);
+  border: 1px solid #0000001a;
+  padding: 2px;
+  border-radius: 5px;
+}
+.banner_details .prodname{
+  font-size: 10px;
+}
+
+/* ------------------------ */
+.no_item_card {
+  font-family: 'Poppins', sans-serif;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.09);
+  text-align: center;
+  padding: 20px;
+}
+
+.no_item_card .card-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.no_item_card .card-text {
+  font-size: 16px;
+  color: #012970;
+}

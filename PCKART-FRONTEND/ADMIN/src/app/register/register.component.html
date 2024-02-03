@@ -1,0 +1,40 @@
+<main id="main" class="main">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card rounded-0">
+        <div class="card-header">
+          <h3 class="mb-0">Register</h3>
+        </div>
+        <div class="card-body">
+          <div class="form">
+            <div class="form-group">
+              <label for="fullname">Full Name</label>
+              <input [(ngModel)]="adminDetails.fullname" name="fullname" type="text" class="form-control rounded-0">
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input [(ngModel)]="adminDetails.email" name="email" type="text" class="form-control rounded-0">
+            </div>
+            <div class="form-group">
+              <label for="mobile">Mobile</label>
+              <input [(ngModel)]="adminDetails.mobile" name="mobile" type="text" class="form-control rounded-0">
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input [(ngModel)]="adminDetails.username" name="username" type="text" class="form-control rounded-0">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input [(ngModel)]="adminDetails.password" name="password" type="text" class="form-control rounded-0">
+            </div>
+            <div class="form-group">
+              <label for="role">Role</label>
+              <input [(ngModel)]="adminDetails.role" name="role" type="text" class="form-control rounded-0">
+            </div>
+            <button (click)="registerUser()" type="button" class="btn btn-primary float-right">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

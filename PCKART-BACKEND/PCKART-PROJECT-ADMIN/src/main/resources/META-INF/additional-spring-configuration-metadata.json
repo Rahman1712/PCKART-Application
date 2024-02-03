@@ -1,0 +1,97 @@
+{"properties": [
+  {
+    "name": "jwt.secret.key.admins",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.secret.key'"
+  },
+  {
+    "name": "jwt.secret.key.users",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.user.secret.key'"
+  },
+  {
+    "name": "cors.set.allowed.origins",
+    "type": "java.lang.String",
+    "description": "A description for 'cors.set.allowed.origins'"
+  },
+  {
+    "name": "jwt.secret.key.products",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.secret.key.products'"
+  },
+  {
+    "name": "product.service.api.url.add",
+    "type": "java.lang.String",
+    "description": "A description for 'product.service.api.url.add'"
+  },
+  {
+    "name": "product.service.api.url.delete",
+    "type": "java.lang.String",
+    "description": "A description for 'product.service.api.url.delete'"
+  },
+  {
+    "name": "product.service.api.url.update",
+    "type": "java.lang.String",
+    "description": "A description for 'product.service.api.url.update'"
+  },
+  {
+    "name": "product.service.api.url.getbyid",
+    "type": "java.lang.String",
+    "description": "A description for 'product.service.api.url.getbyid'"
+  },
+  {
+    "name": "brand.service.api.url.add",
+    "type": "java.lang.String",
+    "description": "A description for 'brand.service.api.url.add'"
+  },
+  {
+    "name": "brand.service.api.url.delete",
+    "type": "java.lang.String",
+    "description": "A description for 'brand.service.api.url.delete'"
+  },
+  {
+    "name": "brand.service.api.url.update",
+    "type": "java.lang.String",
+    "description": "A description for 'brand.service.api.url.update'"
+  },
+  {
+    "name": "category.service.api.url.delete",
+    "type": "java.lang.String",
+    "description": "A description for 'category.service.api.url.delete'"
+  },
+  {
+    "name": "category.service.api.url.add",
+    "type": "java.lang.String",
+    "description": "A description for 'category.service.api.url.add'"
+  },
+  {
+    "name": "category.service.api.url.update",
+    "type": "java.lang.String",
+    "description": "A description for 'category.service.api.url.update'"
+  },
+  {
+    "name": "images.folder.path",
+    "type": "java.lang.String",
+    "description": "A description for 'images.folder.path'"
+  },
+  {
+    "name": "product.service.api.url.update_active",
+    "type": "java.lang.String",
+    "description": "A description for 'product.service.api.url.update_active'"
+  },
+  {
+    "name": "user.service.api.url.getall",
+    "type": "java.lang.String",
+    "description": "A description for 'user.service.api.url.getall'"
+  },
+  {
+    "name": "user.service.api.url.update_nonlocked",
+    "type": "java.lang.String",
+    "description": "A description for 'user.service.api.url.update_nonlocked'"
+  },
+  {
+    "name": "jwt.secret.key.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.secret.key.expiration'"
+  }
+]}

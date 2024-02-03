@@ -1,0 +1,106 @@
+server:
+  port: 8080
+#  port: 9191
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${PROD_DB_HOST}:${PROD_DB_PORT}/${PROD_DB_NAME}
+    username: ${PROD_DB_USERNAME}
+    password: ${PROD_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      auto-commit: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true    
+    properties:
+      hibernate:
+        format-sql: true
+    database: postgresql    
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+product:
+  service:
+    api:
+      url:
+        add: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/products/auth/add-product-imgs
+        delete: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/products/auth/delete-product/
+        update: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/products/auth/update-product/
+        update_active: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/products/auth/update-active/byid/
+        getbyid: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/products/get/product-res/
+#https://pckart-products.onrender.com/pckart/api/v1/products  
+#https://pckart-products-railway-production.up.railway.app/pckart/api/v1/products  
+
+brand:
+  service:
+    api:
+      url:
+        add: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/brands/auth/add
+        delete: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/brands/auth/delete/
+        update: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/brands/auth/update/
+         
+category:
+  service:
+    api:
+      url:
+        add: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/categories/auth/add
+        delete: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/categories/auth/delete/
+        update: ${PRODUCT_APP_DOMAIN}/pckart/api/v1/categories/auth/update/ 
+
+user:
+  service:
+    api:
+      url:
+        getall: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/user/get/allUsers
+        getbyid: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/user/getbyid/
+        update_nonlocked: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/user/update/nonlocked/byid/
+
+order:
+  service:
+    api:
+      url:
+        getall: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/get/allOrders
+        getall_bylimit: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/get/orders/bylimit/
+        getbyid: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/get/order/byid/
+        getbyUserid: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/get/orders/byUserId/
+        getbyTrackingNo: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/get/order/byTrackingNo/
+        update_order_status: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/update/order_status/byid/
+        update_payment_status: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/update/payment_status/byid/
+        update_track_status: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/update/track_status/byid/
+        get_orders_page: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/order/get/orders-page/
+        
+coupon:
+  service:
+    api:
+      url:
+        save: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/coupon/save
+        getall: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/coupon/get/coupon/all
+        getbyid: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/coupon/get/coupon/byid/
+        update_coupondata: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/coupon/update/coupondata/byid/
+        update_validupto_discount: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/coupon/update/validupto_discount/byid/
+        update_enabled: ${USER_APP_DOMAIN}/pckart/api/v1/user-to-admin/coupon/update/enabled/byid/
+
+       
+cors:
+  set:
+    allowed:
+      origins: ${ADMIN_CORS_LINK_1},
+               ${ADMIN_CORS_LINK_2},
+               ${ADMIN_CORS_LINK_3}
+      
+jwt:
+  secret:
+    key:
+      admins: ${JWT_ADMINS_TOKEN}
+      expiration: 86400000  # for a day
+      users: ${JWT_USERS_TOKEN}
+      products: ${JWT_PRODUCTS_TOKEN}
+
+
+
+
+
+
+
+    

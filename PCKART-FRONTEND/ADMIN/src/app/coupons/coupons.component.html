@@ -1,0 +1,107 @@
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Coupons</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item active">Coupons</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container ">
+          <div class="d-flex align-items-center">
+            <button (click)="addCoupon()" type="button" class="btn btn-primary me-3">
+              <i class="bi bi-plus-circle"></i>
+              Add Coupon
+            </button>
+          </div>
+          <div>
+            <div>
+              <label for="form-select">Filter</label>
+              <input type="text" [(ngModel)] ="searchText"  placeholder="Search by name">
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Coupons</h5>
+              <table mat-table [dataSource]="dataSource | couponfilter:searchText" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>Coupon Id</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.id}}
+                  </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="photo">
+                  <th mat-header-cell *matHeaderCellDef>Photo</th>
+                  <td mat-cell *matCellDef="let element">
+                    <img [src]="element.userImage.url" alt="PIC" width="30px" height="30px">
+                  </td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Name</th>
+                  <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="code">
+                  <th mat-header-cell *matHeaderCellDef>Code</th>
+                  <td mat-cell *matCellDef="let element">{{element.code}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="discount">
+                  <th mat-header-cell *matHeaderCellDef>Discount</th>
+                  <td mat-cell *matCellDef="let element">{{element.discount}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="validupto">
+                  <th mat-header-cell *matHeaderCellDef>Valid Upto</th>
+                  <td mat-cell *matCellDef="let element">{{element.validupto | dateFormat}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="enabled">
+                  <th mat-header-cell *matHeaderCellDef>Enabled</th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="form-check form-switch">
+                      <input style="cursor:pointer;" class="form-check-input" type="checkbox" name="enabled" id="enabled" [(ngModel)]="element.enabled" (change)="updateEnabled(element.id,element.enabled)">
+                    </div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Edit</th>
+                  <td mat-cell *matCellDef="let element">
+                    <a (click)="updateCoupon(element)" style="cursor:pointer;">
+                      <span><i class="bi bi-pencil-square text-secondary mx-2"></i></span>
+                    </a>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns "></tr>
+                <tr mat-row *matRowDef="let row ; columns: displayedColumns ; "></tr>
+                
+              </table>  
+
+              <!-- <mat-paginator [pageSize]="5" [length]="dataSource?.filteredData?.length" [pageIndex]="currentPage" (page)="currentPage = $event.pageIndex + 1"></mat-paginator> -->
+              <mat-paginator [pageSize]="pageItemNum" ></mat-paginator>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+

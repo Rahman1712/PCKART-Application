@@ -1,0 +1,25 @@
+
+#main{
+  min-height: 100vh;
+}
+
+#sidebar{
+  margin-left: 0 !important;
+}
+
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+p {
+  font-size: 1.2rem;
+  color: #666;
+}
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}

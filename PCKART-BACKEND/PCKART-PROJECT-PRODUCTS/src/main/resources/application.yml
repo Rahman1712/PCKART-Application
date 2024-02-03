@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  #port: 9193
+    
+filter:
+  url:
+    patterns: /pckart/api/v1/brands/auth/*,
+              /pckart/api/v1/products/auth/*,
+              /pckart/api/v1/categories/auth/*,
+
+jwt:
+  secret:
+    key:
+      products: ${JWT_PRODUCTS_TOKEN}
+
+cors:
+  set:
+    allowed:
+      origins: ${PRODUCT_CORS_LINK_1},
+               ${PRODUCT_CORS_LINK_2},
+               ${PRODUCT_CORS_LINK_3},
+               ${PRODUCT_CORS_LINK_4}
+               
+

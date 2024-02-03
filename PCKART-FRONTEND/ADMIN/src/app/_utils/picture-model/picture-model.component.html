@@ -1,0 +1,25 @@
+<div>
+  <input ngNativeValidate required type="file" (change)="fileChangeEvent($event)" />
+  <!-- [aspectRatio]="4 / 3"  -->
+  <!-- [resizeToWidth]="256" -->
+  <div class="d-flex flex-row">
+    <div style="width: 200px; height: 200px;">
+      <image-cropper 
+        [imageChangedEvent]="imageChangedEvent" 
+        [maintainAspectRatio]="true" format="png" 
+        [autoCrop]="true"
+        (imageCropped)="imageCropped($event)" 
+        (imageLoaded)="imageLoaded()" 
+        (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()">
+      </image-cropper>
+    </div>
+  
+    <img [src]="croppedImage"  width="200px" height="200px" id="file-show" #fileShow/>
+      <!-- <img [src]="imageFile.url" width="200px" height="200px"/> -->
+  </div>
+
+
+  <button (click)="closepopup()" mat-raised-button color="warn">Close</button>
+  <button [mat-dialog-close]="closeMessage" mat-raised-button color="accent">Cancel</button>
+</div>

@@ -1,0 +1,25 @@
+.productTable{
+    font-family: 'Poppins', sans-serif;
+}
+.productTable tr, .productTable th{
+  font-size: 14px;
+}
+.productTable td{
+  font-size: 12px;
+}
+
+.orderTable{
+  font-family: 'Poppins', sans-serif;
+}
+.orderTable tr, .orderTable th{
+  font-size: 12px;
+}
+.orderTable td{
+  font-size: 10px;
+}
+
+
+.product__item{
+  background: rgb(255, 255, 255);
+  padding: 2px;
+}

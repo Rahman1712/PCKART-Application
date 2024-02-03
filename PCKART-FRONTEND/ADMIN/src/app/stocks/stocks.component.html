@@ -1,0 +1,249 @@
+<!-- <p>users works!</p> -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Stocks</h1>
+    <nav style="--bs-breadcrumb-divider: '>';">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item active">Stocks</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-12">
+
+        <div class="card">
+          <div class="card-body pt-3">
+            <!-- Bordered Tabs -->
+            <ul class="nav nav-tabs nav-tabs-bordered">
+
+              <li class="nav-item">
+                <button class="nav-link active" #stockViewBtn data-bs-toggle="tab" data-bs-target="#stock-overview">Stock Details</button>
+              </li>
+
+              <li class="nav-item">
+                <button class="nav-link" #stockEditBtn data-bs-toggle="tab" data-bs-target="#stock-edit">Stock Update</button>
+              </li>
+
+            </ul>
+            <div class="tab-content pt-2">
+
+              <div class="tab-pane fade show active stock-overview" id="stock-overview">
+                <nav class="navbar navbar-light bg-light">
+                  <div class="container ">
+                    <div>
+                      <div>
+                        <input class="form-control" type="text" [(ngModel)] ="searchKeyword"  placeholder="Search by name" (keyup)="searchOperation()">
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <button mat-raised-button (click)="sortDir = 'asc'; getProductsWithPagination(pageNum,limit,sortField,sortDir)">low <i class="bi bi-arrow-down-short"> </i>to high <i class="bi bi-arrow-up-short"></i></button>
+                        <button class="ms-2" mat-raised-button (click)="sortDir = 'desc'; getProductsWithPagination(pageNum,limit,sortField,sortDir)">high <i class="bi bi-arrow-up-short"></i> to low <i class="bi bi-arrow-down-short"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+                <table class="table">
+                  <thead>
+                    <tr class="table-secondary mt-1">
+                      <th scope="col">ID</th>
+                      <th scope="col">Preview</th>
+                      <th scope="col">Product Name</th>
+                      <th scope="col">Brand</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let pd of productsListImgs; let i = index;" class="{{pd.productResponse!.productQuantity <= 10 ? 'table-danger' : ''}}">
+                      <th scope="row">
+                        #{{pd.productResponse!.productId}}</th>
+                      <td>
+                        <img [src]="pd.productResponse!.mainImage.url" alt="PIC" width="30px" height="30px">
+                      </td>
+                      <td>{{pd.productResponse!.productName}}</td>
+                      <td>{{pd.productResponse!.brandName}}</td>
+                      <td>{{pd.productResponse!.productPrice}}</td>
+                      <td>{{pd.productResponse!.productQuantity}}</td>
+                      <td>
+                        <a style="cursor: pointer;" (click)="updateProductStock(pd.productResponse!, stockEditBtn)">
+                          <span><i class="bi bi-pencil-square text-secondary mx-2"></i></span>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="d-flex align-items-center justify-content-center mt-5" *ngIf="totalPages > 1"> 
+                  <nav aria-label="">
+                    <ul class="pagination" style="cursor: pointer;">
+  
+                      <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getProductsWithPagination(1,limit,sortField,sortDir)">First</a>
+                      </li>
+  
+                      <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getProductsWithPagination(pageNum-1,limit,sortField,sortDir)">Prev</a>
+                      </li>
+                      <ng-container *ngIf="totalPages <= 10;">
+                        <li *ngFor="let i of range(totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                          <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                        </li>
+                      </ng-container>
+  
+                      <ng-container *ngIf="totalPages > 10;">
+                        <ng-container *ngIf="pageNum <= 5 || pageNum >= totalPages - 4;">
+                          
+                          <li *ngFor="let i of range(5);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                            <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                          </li>
+  
+                          <a class="page-link" (click)="getProductsWithPagination(6,limit,sortField,sortDir)">...</a>
+  
+                          <li *ngFor="let i of rangeStart(totalPages - 4, totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                            <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                          </li>
+                        </ng-container>
+  
+                        <ng-container *ngIf="pageNum > 5 && pageNum < totalPages - 4">
+                          <a class="page-link" (click)="getProductsWithPagination(pageNum-5,limit,sortField,sortDir)">...</a>
+                         
+                          <li *ngFor="let i of rangeStart(pageNum-4, pageNum+4);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                            <a class="page-link" (click)="getProductsWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                          </li>
+  
+                          <a class="page-link" (click)="getProductsWithPagination(pageNum+5,limit,sortField,sortDir)">...</a>
+                        </ng-container>
+                      </ng-container>
+                      
+  
+                      <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getProductsWithPagination(pageNum+1,limit,sortField,sortDir)">Next</a>
+                      </li>
+  
+                      <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                        <a class="page-link" (click)="getProductsWithPagination(totalPages,limit,sortField,sortDir)">Last</a>
+                      </li>
+  
+                    </ul>
+                    
+                    <div class="text-center text-primary">
+                      <p *ngIf="startCount != endCount; else elseBlockItem;">Showing products # {{startCount}} to {{endCount}} of {{totalItems}}</p>
+                    </div>
+                    <ng-template #elseBlockItem>
+                        <p>Showing products # {{endCount}} of {{totalItems}}</p>
+                    </ng-template>
+  
+                  </nav>
+                </div>
+              </div>
+
+             
+             
+              <div class="tab-pane fade stock-edit pt-3" id="stock-edit">
+                <div class="card p-3"  >
+                  <div class="row">
+
+
+                    <div class="col position-relative">
+                      <form class="d-flex input-group search__input__form">
+                        <input autocomplete="off" type="search" class="form-control search__input" placeholder="Search product" name="searchKeyword" [(ngModel)]="searchKeyword" (keyup)="searchProductOperation()" (close)="searchProductOperation()" (click)="searchBox.style.visibility = 'visible'"/>
+                      </form>
+                      <div class="search__box" #searchBox>
+                        <div class="card d-flex flex-column">
+                          <div class="row align-items-top product__items__row" *ngIf="productsSearchList.length > 0;"> 
+                            <ul>
+                              <li class="product__item" *ngFor="let productDto of productsSearchList;">
+                                <a class="d-flex" (click)="productResponseEdit = productDto.productResponse ; searchBox.style.visibility =  'hidden';">
+                                  <div class="product__image col-2">
+                                    <img class="imag-fluid" alt="PIC" [src]="productDto.productResponse!.mainImage.url">
+                                  </div>
+                                  <div class="product__detail col-8">
+                                    <p class="product__title">{{productDto.productResponse!.productName}}</p>
+                                    <div class="product__info d-flex flex-row">
+                                      <p class="product__brand" >
+                                        {{productDto.productResponse!.brandName}}
+                                      </p>
+                                      <p class="product__color" [style.background]="productDto.productResponse!.productColor+''" data-toggle="tooltip" 
+                                      data-placement="top" 
+                                      [title]="productDto.productResponse!.productColor+''"></p>
+                                      <p class="product__category">{{productDto.productResponse!.categoryName}}</p>
+                                      </div>
+                                  </div>
+                                  <div class="product__price col-2 d-flex flex-column">
+                                    <div class="d-flex flex-row justify-content-between">
+                                      <p class="price">{{productDto.productResponse!.productPrice | currency: 'INR'}}</p>
+                                      <p class="disc">(-{{productDto.productResponse!.productDiscount}}%)</p>
+                                    </div>
+                                    <p class="discprice">{{(productDto.productResponse!.productPrice - productDto.productResponse!.productPrice*productDto.productResponse!.productDiscount/100) | currency: 'INR'}}</p>
+                                  </div>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                          <ng-template #elseSearchEmpty>
+                            <p class="text text-center m-2 pt-3 pb-4 product__empty_search">Search results</p>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="container" *ngIf="productResponseEdit != undefined">
+                    <div class="row" >
+                      <div class="col-6">
+                        <div *ngIf="productResponseEdit != undefined" class="container p-2">
+                          <img [src]="productResponseEdit.mainImage.url" class="img-fluid" alt="PIC">
+                        </div>
+                      </div>
+                      <div class="col-6 banner_details d-flex justify-content-center align-items-center">
+                        <div>
+                          <p class="p-0 m-0 mt-2"> <b>Product Name: </b>{{productResponseEdit!.productName}}</p>
+                          <p class="p-0 m-0"><b>Brand: </b> {{productResponseEdit!.brandName}}</p>
+                          <p class="p-0 m-0"><b>Product Category: </b> {{productResponseEdit!.productName}}</p>
+                          <p class="d-flex flex-row"><b>Product Price: </b> 
+                            <span class="mx-2" style="text-decoration: line-through;">{{productResponseEdit!.productPrice  | currency: 'INR'}}</span>
+                            <span class="mx-2">(-{{productResponseEdit!.productDiscount}}% discount)</span>
+                            <span class="mx-2"><b>{{productResponseEdit!.productPrice - (productResponseEdit!.productPrice * productResponseEdit!.productDiscount / 100) | currency: 'INR'}}</b></span>
+                          </p>
+                          <p class="p-0 m-0"><b>Product Quantity: </b> {{productResponseEdit!.productQuantity}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="d-flex flex-row">
+                          <form >
+                            <div class="form-group">
+                              <label for="newProductQuantity"><b>Quantity :</b></label>
+                              <input type="number" min="1" class="form-control" name="newProductQuantity" id="newProductQuantity"  placeholder="Enter new quantity" [(ngModel)]="newProductQuantity" style="width: 100px;">
+                            </div>
+                          </form>
+      
+                          <div class="d-flex flex-column">
+                            <label class="mx-2"><b>New updated Quantity :</b> {{(productResponseEdit.productQuantity - newProductQuantity) < 0 ? 0 : productResponseEdit.productQuantity - newProductQuantity }}</label>
+                            <button type="button" mat-raised-button color="warn" class="mx-2" (click)="removeQuantity(stockViewBtn)">remove quantity</button>
+                          </div>
+                          <div class="d-flex flex-column">
+                            <label class="mx-2"><b>New updated Quantity :</b> {{productResponseEdit.productQuantity + newProductQuantity}}</label>
+                            <button type="button" mat-raised-button color="primary" class="mx-2" (click)="addQuantity(stockViewBtn)">add quantity</button>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+

@@ -1,0 +1,140 @@
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Reports</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item active">Reports</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section reports">
+    <div class="container d-flex justify-content-end pb-1">
+      <button mat-raised-button color="warn" matTooltip="download pdf" (click)="generatePDF()"><i class="bi bi-file-pdf"></i></button>
+    </div>
+    <div class="card">
+      <div class="card-body pt-3">
+        <section class="btn-group col-12">
+          <!-- [(ngModel)]="reportTime"  -->
+          <input type="radio" class="btn-check" checked  name="reports_radio" id="DAILY"  value="DAILY" (click)="loadReportDats('DAILY')" >
+          <label for="DAILY" class="btn btn-outline-dark">DAILY</label>
+          
+          <input type="radio" class="btn-check" name="reports_radio" id="MONTHLY" value="MONTHLY" (click)="loadReportDats('MONTHLY')">
+          <label for="MONTHLY" class="btn btn-outline-dark">MONTHLY</label>
+
+          <input type="radio" class="btn-check" name="reports_radio" id="YEARLY" value="YEARLY" (click)="loadReportDats('YEARLY')">
+          <label for="YEARLY" class="btn btn-outline-dark">YEARLY</label>
+        </section>
+      </div>
+
+      <div class="card-body">
+        <h5 class="card-title">Orders <span>| {{duration}}</span></h5>
+
+        <table class="table table-border datatable">
+          <thead>
+            <tr>
+              <th scope="col">Order Date</th>
+              <th scope="col">No of Orders</th>
+              <th scope="col">Revenue</th>
+              <th scope="col">No of Products</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of ordersList;" >
+              <td scope="row">
+                {{order.date}}
+              </td>
+              <td>
+                {{order.count}}
+              </td>
+              <td>
+                {{order.sum | currency:'INR'}}
+              </td>
+              <td>
+                {{order.quantity}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <div class="d-flex align-items-center justify-content-center mt-5" *ngIf="totalPages > 1"> 
+          <nav aria-label="">
+            <ul class="pagination" style="cursor: pointer;">
+
+              <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                <a class="page-link" (click)="getOrdersWithPagination(1,limit,sortField,sortDir)">First</a>
+              </li>
+
+              <li [ngClass]="pageNum > 1 ? 'page-item' : 'page-item disabled'">
+                <a class="page-link" (click)="getOrdersWithPagination(pageNum-1,limit,sortField,sortDir)">Prev</a>
+              </li>
+              <ng-container *ngIf="totalPages <= 10;">
+                <li *ngFor="let i of range(totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                  <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                </li>
+              </ng-container>
+
+              <ng-container *ngIf="totalPages > 10;">
+                <ng-container *ngIf="pageNum <= 5 || pageNum >= totalPages - 4;">
+                  
+                  <li *ngFor="let i of range(5);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                    <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                  </li>
+
+                  <a class="page-link" (click)="getOrdersWithPagination(6,limit,sortField,sortDir)">...</a>
+
+                  <li *ngFor="let i of rangeStart(totalPages - 4, totalPages);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                    <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                  </li>
+                </ng-container>
+
+                <ng-container *ngIf="pageNum > 5 && pageNum < totalPages - 4">
+                  <a class="page-link" (click)="getOrdersWithPagination(pageNum-5,limit,sortField,sortDir)">...</a>
+                 
+                  <li *ngFor="let i of rangeStart(pageNum-4, pageNum+4);" [ngClass]="pageNum != i ? 'page-item' : 'page-item active'">
+                    <a class="page-link" (click)="getOrdersWithPagination(i,limit,sortField,sortDir)">{{i}}</a>
+                  </li>
+
+                  <a class="page-link" (click)="getOrdersWithPagination(pageNum+5,limit,sortField,sortDir)">...</a>
+                </ng-container>
+              </ng-container>
+              
+
+              <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                <a class="page-link" (click)="getOrdersWithPagination(pageNum+1,limit,sortField,sortDir)">Next</a>
+              </li>
+
+              <li [ngClass]="pageNum < totalPages ? 'page-item' : 'page-item disabled'">
+                <a class="page-link" (click)="getOrdersWithPagination(totalPages,limit,sortField,sortDir)">Last</a>
+              </li>
+
+            </ul>
+            
+            <div class="text-center text-primary">
+              <p *ngIf="startCount != endCount; else elseBlockItem;">Showing products # {{startCount}} to {{endCount}} of {{totalItems}}</p>
+            </div>
+            <ng-template #elseBlockItem>
+                <p>Showing products # {{endCount}} of {{totalItems}}</p>
+            </ng-template>
+
+          </nav>
+        </div>
+
+      </div>
+
+      <div class="card m-2">
+        <div class="card-body">
+          <h5 class="card-title">Reports of orders<span>/{{ordersChartHeader}}</span></h5>
+
+          <canvas id="linechart"></canvas>
+
+        </div>
+    
+      </div>
+    </div>
+  </section>
+</main>

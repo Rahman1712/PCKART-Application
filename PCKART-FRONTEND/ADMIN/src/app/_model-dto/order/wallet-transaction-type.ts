@@ -1,0 +1,7 @@
+export enum WalletTransactionType{
+  CREDITED="CREDITED",
+  DEBITED="DEBITED",
+  REFUNDED="REFUNDED",
+  EXPIRED="EXPIRED",
+  AWARDED="AWARDED",
+}

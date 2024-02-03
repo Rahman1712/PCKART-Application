@@ -1,0 +1,106 @@
+
+.full-width {
+  width: 100%;
+}
+
+.full-width-input {
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+.btn-mat-specs{
+  width: 10px !important;
+  background: #000 !important;
+  min-width: unset!important;
+}
+
+.mainimage-card{
+  border: 1px solid #eee;
+  /* max-height: 300px; */
+}
+
+mat-grid-tile{
+  border: 1px solid #eee;
+}
+
+.btn-remove-image{
+  position: absolute;
+  cursor: pointer;
+  top: -10px;
+  right: -10px;
+  background-color: #ff0000;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: auto;
+  text-align: center;
+}
+
+.dropzone{
+  height: 150px;
+  min-width: 100px;
+  display: table;
+  background-color: #eee;
+  width: 300px;
+  border: dashed 1px #aaa;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.text-wrapper{
+  display: table-cell;
+  vertical-align: middle;
+}
+.centered{
+  text-align: center;
+}
+.browse-btn{
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* -------search box---------- */
+
+.search__input__form .search__input{
+  background: #FFF;
+  font-family: 'Poppins', sans-serif;
+}
+
+.search__box{
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  z-index: 100;
+  background: transparent;
+  padding-top: 5px;
+  visibility: hidden;
+}
+.search__box:hover{
+  visibility: visible;
+}
+.search__box .card{
+  box-shadow: -2px -2px 30px rgba(1, 42, 112, 0.2),
+              1px 1px  5px  rgba(1, 42, 112, 0.2),
+              -1px -1px  5px inset rgba(1, 42, 112, 0.2),
+              1px 1px 5px inset rgba(1, 42, 112, 0.2);
+}
+
+.product__items__row ul{
+  text-decoration: none;
+  list-style: none;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.product__items__row ul li{
+  box-shadow: 0px 0px 30px #d4d4d470;
+  margin: 0 10px 2px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search__input__form:focus-within   ~ .search__box{
+  visibility: visible;
+}
+

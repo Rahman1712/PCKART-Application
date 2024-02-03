@@ -1,0 +1,89 @@
+
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Banners</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item active">Banners</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <div class="container ">
+          <div class="d-flex align-items-center">
+            <button mat-raised-button routerLink="/banner-add-edit" routerLinkActive="active" type="button" class="btn btn-primary  me-3">
+              <i class="bi bi-plus-circle"></i>
+              Add Banner
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="row">
+        <div class="col-lg-12 ">
+          <div class="card" *ngIf="bannerItems == undefined  || bannerItems.length > 0 ; else elseBlock;">
+            <div class="card-body">
+              <h5 class="card-title">Banners</h5>
+              
+              <ul >
+                <li *ngFor="let banner of bannerItems ; let i = index;" class="card p-2">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div *ngIf="banner.bannerImageFile != undefined" class="container p-2">
+                        <img [src]="banner.bannerImageFile.url" class="img-fluid" alt="PIC">
+                      </div>
+                    </div>
+                    <div class="col-md-6 banner_details">
+                      <p class="p-0 m-0 mt-2"> <b>Header: </b>{{banner.bannerHeader}}</p>
+                      <p class="p-0 m-0"><b>Desc1: </b> {{banner.description1}}</p>
+                      <p class="p-0 m-0"><b>Desc2: </b> {{banner.description2}}</p>
+                      <p class="p-0 m-0"><b>Enabled: </b> <span class="enabled">{{banner.enabled}}</span></p>
+                      <p class="p-0 m-0"><b>Product Name: </b><span class="prodname">{{banner.product.name}}</span></p>
+                      <p class="d-flex flex-md-row flex-column">
+                        <span class="mx-2" style="text-decoration: line-through;">{{banner.product.price  | currency: 'INR'}}</span>
+                        <span class="mx-2">(-{{banner.product.discount}}% discount)</span>
+                        <span class="mx-2"><b>{{banner.product.price - (banner.product.price * banner.product.discount / 100) | currency: 'INR'}}</b></span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 d-flex flex-md-row flex-column">
+                      <button mat-raised-button class="me-2 w-100" (click)="updateById(banner.id)">update</button>
+                      <button mat-raised-button class="me-2 w-100" color="primary" (click)="updateEnabled(banner.id, !banner.enabled)">{{banner.enabled ? 'disable' : 'enable'}}</button>
+                      <button mat-raised-button class="w-100" color="warn" (click)="removeBanner(banner.id,i)">delete</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              
+            </div>
+          </div>
+          <ng-template #elseBlock>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6 offset-md-3">
+                  <div class="no_item_card">
+                    <div class="card-body">
+                      <i class="bi bi-emoji-smile display-1 text-secondary mb-3"></i>
+                      <h5 class="card-title">No Banners</h5>
+                      <p class="card-text">You don't have any banner yet.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+

@@ -1,0 +1,91 @@
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Admins</h1>
+    <nav style="--bs-breadcrumb-divider: '>';">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/admins" routerLinkActive="active">Admins</a></li>
+        <li class="breadcrumb-item active">Admins Add</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row d-flex">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title text-center">Admin Details</h5>
+            <form ngNativeValidate  #adminForm="ngForm" (ngSubmit)="addAdmin(adminForm)">
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-4 col-form-label">Fullname</label>
+                <div class="col-sm-8">
+                  <input type="text" name="fullname" class="form-control" [(ngModel)]="adminDetails.fullname" required placeholder="Full Name">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-4 col-form-label">Mobile</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" [(ngModel)]="adminDetails.mobile" name="mobile" required placeholder="Mobile">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputEmail" class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                  <input type="email" class="form-control" [(ngModel)]="adminDetails.email" name="email" required placeholder="Email">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-4 col-form-label">Username</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" [(ngModel)]="adminDetails.username" name="username" required placeholder="Username">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
+                <div class="col-sm-8">
+                  <input type="password" class="form-control" [(ngModel)]="adminDetails.password" name="password" required placeholder="Password">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPassword" class="col-sm-4 col-form-label">Confirm Password</label>
+                <div class="col-sm-8">
+                  <input type="password" required class="form-control" name="password" placeholder="Confirm Password">
+                </div>
+              </div>
+    
+              <div class="row mb-3">
+                <label class="col-form-label col-sm-4 pt-0">Roles</label>
+                <div class="col-sm-8 d-flex flex-row">
+                  <section class="btn-group">
+                    <input type="radio" class="btn-check" name="roles" id="EDITOR"  value="EDITOR" [(ngModel)]="adminDetails.role" required>
+                    <label for="EDITOR" class="btn btn-outline-dark">EDITOR</label>
+                    
+                    <input type="radio" class="btn-check" name="roles" id="ADMINTRAINEE" value="ADMINTRAINEE" [(ngModel)]="adminDetails.role" required>
+                    <label for="ADMINTRAINEE" class="btn btn-outline-dark">ADMINTRAINEE</label>
+
+                    <input type="radio" class="btn-check" name="roles" id="ADMIN" value="ADMIN" [(ngModel)]="adminDetails.role" required>
+                    <label for="ADMIN" class="btn btn-outline-dark">ADMIN</label>
+                  </section>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-sm-12 text-center">
+                  <div class="d-flex justify-content-end mb-2">
+                    <button mat-raised-button class="mx-1" (click)="clearForm(adminForm)">clear</button>
+                    <button type="submit" mat-raised-button color="primary">add admin</button>
+                  </div>
+                </div>
+              </div>
+
+            </form><!-- End General Form Elements -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->

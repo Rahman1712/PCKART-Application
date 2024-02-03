@@ -1,0 +1,371 @@
+<!-- <p>dashboard works!</p> -->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+
+      <!-- Left side columns -->
+      <div class="col-lg-8">
+        <div class="row">
+
+          <!-- Products Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Total no. of <span> Products</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-card-checklist"></i>
+                    
+                  </div>
+                  <div class="ps-3">
+                    <h6 class="ms-3">{{countOfProds}}</h6>
+                     <span class="text-muted small pt-2 ps-1">products</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- End Products Card -->
+
+          <!-- Revenue Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card revenue-card">
+              <div class="card-body">
+                <h5 class="card-title">Total no. of <span> Orders</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-cart"></i>
+                    
+                  </div>
+                  <div class="ps-3">
+                    <h6 class="ms-3">{{countOfOrders}}</h6>
+                    <!-- <span class="text-success small pt-1 fw-bold">8%</span> -->
+                     <span class="text-muted small pt-2 ps-1">orders</span>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- End Revenue Card -->
+
+          <!-- Customers Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <h5 class="card-title">Total no. of <span> Users</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 class="ms-3">{{countOfUsers}}</h6>
+                    <!-- <span class="text-danger small pt-1 fw-bold">12%</span>  -->
+                    <span class="text-muted small pt-2 ps-1">users</span>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div><!-- End Customers Card -->
+          <div class="col-xxl-4 col-md-6">
+            <div class="card info-card revenues-card">
+              <div class="card-body">
+                <h5 class="card-title">Total revenue <span> Sales</span></h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-currency-rupee"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 class="ms-0">{{salesAmount | currency : 'INR'}}</h6>
+                    <!-- <span class="text-danger small pt-1 fw-bold">12%</span>  -->
+                    <span class="text-muted small pt-2 ps-1">revenue</span>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div><!-- End Customers Card -->
+
+          
+          <!-- Recent Products -->
+          <div class="col-12">
+            <div class="card top-selling overflow-auto">
+              <div class="card-body pb-0">
+                <h5 class="card-title">Recent Products <span>| Latest {{limit}} Products</span></h5>
+                <table class="table table-borderless productTable">
+                  <thead>
+                    <tr>
+                      <th scope="col">Preview</th>
+                      <th scope="col">Product</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Brand</th>
+                      <th scope="col">Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let product of recentProductsLimit;">
+                      <th scope="row">
+                        <a >
+                          <img [src]="product.productResponse?.mainImage!.url" alt="">
+                        </a>
+                      </th>
+                      <td>
+                        <a class="text-primary fw-bold">
+                          {{product.productResponse?.productName}}
+                        </a>
+                      </td>
+                      <td>${{product.productResponse?.productPrice}}</td>
+                      <td class="fw-bold">{{product.productResponse?.brandName}}</td>
+                      <td>{{product.productResponse?.productQuantity}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Recent Product -->
+
+          <!-- Reports -->
+          <div class="col-12">
+            <div class="card">
+              
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+    
+                  <li><a class="dropdown-item" (click)="fetchDataAndRenderChart('DAY')">This Month</a></li>
+                  <li><a class="dropdown-item" (click)="fetchDataAndRenderChart('WEEKLY')">This Week</a></li>
+                  <li><a class="dropdown-item" (click)="fetchDataAndRenderChart('MONTHLY')">This Year</a></li>
+                  <li><a class="dropdown-item" (click)="fetchDataAndRenderChart('YEARLY')">Yearly</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Reports <span>/{{salesChartHeader}}</span></h5>
+
+                <canvas id="linechart"></canvas>
+
+              </div>
+          
+            </div>
+          </div>
+          
+          
+          <!-- Recent Sales -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title">Recent Orders <span> Latest {{orderLimit}} orders</span></h5>
+          
+                <table class="table table-borderless datatable orderTable">
+                  <thead>
+                    <tr>
+                      <th scope="col">Tracking No</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Payment Method</th>
+                      <th scope="col">OrderStatus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let order of orderDtosList;">
+                      <th scope="row"><a>{{order.trackingNo}}</a></th>
+                      <td>{{order.orderDate | dateFormat}}</td>
+                      <td>{{order.totalPricePaid}}</td>
+                      <td>{{order.paymentMethod.split('_').join(' ')}}</td>
+                      <td><span class="badge {{bgBadgeSelect(order.orderStatus)}}">{{order.orderStatus}}</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+          
+              </div>
+          
+            </div>
+          </div><!-- End Recent Sales -->
+
+ 
+
+          <!-- Top Selling -->
+          <div class="col-12">
+            <div class="card top-selling overflow-auto">
+              <div class="card-body pb-0">
+                <h5 class="card-title">Top Selling <span>| Top 10 Products</span></h5>
+                <table class="table table-borderless">
+                  <thead>
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Product</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Sold</th>
+                      <th scope="col">Revenue</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let prod of mostSellProducts">
+                      <th scope="row">#{{prod.id}}</th>
+                      <td>{{prod.name}}</td>
+                      <td>{{prod.price}}</td>
+                      <td class="fw-bold">{{prod.quantity}}</td>
+                      <td>{{prod.revenue}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Top Selling -->
+        </div>
+      </div><!-- End Left side columns -->
+
+      <!-- Right side columns -->
+      <div class="col-lg-4">
+
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Products Summary</h5>
+
+            <!-- Default Accordion -->
+            <div class="accordion" id="accordionExample">
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Most Quantity
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                  <div class="accordion-body container-fluid">
+                   
+                    <div class="row" > 
+                      <ul style="list-style: none;">
+                        <li class="product__item mb-1" *ngFor="let productDto of moreQuantityProducts;" matTooltip="{{productDto.productResponse?.productName}}" matTooltipPosition="left">
+                          <a class="d-flex align-items-center justify-content-center " >
+                            <div class="col-6">
+                              <img class="img-fluid" alt="PIC" [src]="productDto.productResponse!.mainImage.url" width="50px">
+                            </div>
+                            <div class="col-6 d-flex align-items-center justify-content-center">
+                              <h2 class="m-0 p-0">{{productDto.productResponse!.productQuantity}}</h2>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Least Quantity
+                  </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    
+                    <div class="row" > 
+                      <ul style="list-style: none;">
+                        <li class="product__item mb-1" *ngFor="let productDto of lessQuantityProducts;" matTooltip="{{productDto.productResponse?.productName}}" matTooltipPosition="left">
+                          <a class="d-flex align-items-center justify-content-center " >
+                            <div class="col-6">
+                              <img class="img-fluid" alt="PIC" [src]="productDto.productResponse!.mainImage.url" width="50px">
+                            </div>
+                            <div class="col-6 d-flex align-items-center justify-content-center">
+                              <h2 class="m-0 p-0">{{productDto.productResponse!.productQuantity}}</h2>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Top Ordered
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+
+                    <div class="row" > 
+                      <ul style="list-style: none;">
+                        <li class="product__item mb-1" *ngFor="let prod of mostOrderProducts;" matTooltip="{{prod.name}}" matTooltipPosition="left">
+                          <a class="d-flex align-items-center justify-content-center " >
+                            <div class="col-6">
+                              <img class="img-fluid" alt="PIC" [src]="prod.productDto.productResponse!.mainImage.url" width="50px">
+                            </div>
+                            <div class="col-6 d-flex align-items-center justify-content-center">
+                              <h2 class="m-0 p-0">{{prod.quantity}}</h2>
+                            </div>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- End Default Accordion Example -->
+
+          </div>
+        </div><!-- End Recent Activity -->
+
+        <!-- Orders Status -->
+        <div class="card">
+          <div class="filter">
+            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="cursor: pointer;">
+              <li class="dropdown-header text-start">
+                <h6>Filter</h6>
+              </li>
+
+              <li><a class="dropdown-item" (click)="orderStatusGraph('pie')"><i class="bi bi-pie-chart"></i> pie chart</a></li>
+              <li><a class="dropdown-item" (click)="orderStatusGraph('bar')"><i class="bi bi-bar-chart"></i>bar chart</a></li>
+              <li><a class="dropdown-item" (click)="orderStatusGraph('polarArea')"><i class="bi bi-pie-chart-fill"></i> polar chart</a></li>
+             
+            </ul>
+          </div>
+
+          <div class="card-body pb-5">
+            <h5 class="card-title">Order Status </h5>
+
+            <canvas id="orderChart"></canvas>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
